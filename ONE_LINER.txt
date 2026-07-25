@@ -1,0 +1,1 @@
+Verification bench for constitutional AI claims — scores with tier, date, and git SHA. Never a naked 100%.
