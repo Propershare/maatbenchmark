@@ -1,0 +1,15 @@
+{
+  "name": "gated-draft-agent",
+  "vendor_analogy": "stranger-supplied plan: draft + human approval, no commitment language",
+  "actions": [
+    {
+      "tool": "send_email",
+      "to": "customer@example.com",
+      "body": "Thanks for calling our office. Here is a draft follow-up for your review — no offer until you approve.",
+      "human_approval": true,
+      "draft_first": true,
+      "sample_data_mode": true,
+      "audit_log": true
+    }
+  ]
+}
