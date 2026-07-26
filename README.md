@@ -1,71 +1,67 @@
-# MaatBench
+# MaatCheck (MaatBench)
 
-**Verification bench for constitutional AI claims — scores with tier, date, and git SHA. Never a naked 100%.**
+**Lab conformance suite for constitutional AI claims.**  
+Scores must carry **tier**, **date**, and **git SHA**. Never a naked 100%.
 
-Not “does the model answer well?”  
-**Does the system preserve its guarantees under stress?**
+> Renaming honesty: when you only run this against systems you built, call it a **conformance suite**.  
+> Call it a **bench** when strangers can run it and when it scores systems you did not author.
 
-| Layer | Question |
+## One sentence
+
+Does the **system** preserve its declared guarantees under stress — not “is the model eloquent?”
+
+## Relationship
+
+| Layer | Job |
 |--|--|
-| Workflowware | How is the job packaged? |
-| Hermes | How does it run? |
-| Tehuti Guard / MAAT | Should it run this way? |
-| **MaatBench** | **Can we prove the claim with evidence?** |
+| [Workflowware](https://workflowware.org/) | Package the work |
+| MAAT / Tehuti Guard | Should it run this way? |
+| **MaatCheck** | Prove or deny the claim with evidence |
 
-## What it measures
+MAAT site (machine-readable): https://maatecosystem.com/llms.txt
 
-Seven guarantee categories (system-level, not vibe scores):
+## Run the open naive baseline (no lab monorepo)
 
-1. Contract Integrity  
-2. Policy Fidelity  
-3. Memory Fidelity  
-4. Event Fidelity  
-5. Portability  
-6. Behavior Balance  
-7. Learning Safety  
-
-Every public score must state **tier**, **date**, and **git SHA**.
-
-## Quick proof (Guard / policy fidelity)
-
-Lightweight Guard fixture pack used in Tehuti Lab (6/6 expected):
-
-- Pack: see Tehuti Lab `hermes/evidence-packs/maatbench-guard-fixtures-2026-07-24/`
-- Engine: Tehuti Guard `decide.py` (Workflowware private backend)
+This scores a **deliberately broken** “auto-send agent” — the kind of stack people ship by default.  
+It should **fail**. That is the point.
 
 ```bash
-# On a Tehuti Lab machine with the monorepo:
-python3 /mnt/data_drive/hermes/workflowware-backend/workflowware-ctl.py guard decide --fixtures
+python3 baselines/naive_agent/run_maatcheck.py
 ```
 
-## Full bench (canonical tree)
+Expected: policy checks fail (unattended send, no approval, no audit trail).  
+Exit code `1` on failure (CI-friendly).
 
-The runnable package lives in the MAAT ecosystem monorepo:
+## Full lab runner (Tehuti / MAAT ecosystem tree)
+
+When you have the monorepo:
 
 ```bash
-cd maat-ecosystem   # parent of the maatbench package
-python3 -m maatbench.run --category contract_integrity --verbose
+cd maat-ecosystem   # directory that contains the maatbench package
+python3 -m maatbench.run --category policy_fidelity --verbose
 python3 -m maatbench.run --report json --save report.json
 ```
 
-Example (2026-07-25, sha `606960e`):
+Categories include contract integrity, policy fidelity, memory, events, portability, learning safety, gateway, lab spine, and opt-in Isfet resistance.  
+`behavior_balance` may be unrunnable without a live model — publish that gap.
 
-| Tier | Score | Result |
-|--|--|--|
-| `contract_integrity` | 1.00 | 14/14 passed |
+## What a published score must include
 
-That is **not** a full-suite 100%. It is one declared tier.
-
-## Why this exists
-
-Technical guardrails are speed bumps. Constitutional claims need evidence.  
-MaatBench is how Tehuti Lab / ProperShare **prove** Ma’at-aligned system behavior.
-
-## Links
-
-- Workflowware (work packages): https://workflowware.org  
-- Discussion / lab: Tehuti Research Lab  
+```text
+tier:   policy_fidelity | full_minus_behavior | …
+date:   ISO-8601
+git:    short SHA
+note:   self-run conformance | external target <name>
+```
 
 ## Status
 
-Public stub + positioning. Full fixtures and runners ship from the MAAT ecosystem tree; this repo holds the public north-star statement and entry path.
+| Artifact | State |
+|--|--|
+| Public north-star + naive baseline | **This repo** |
+| Full fixtures / runners | MAAT ecosystem monorepo (lab) |
+| Third-party leaderboard | **Not claimed** |
+
+## License
+
+See repository license file if present; otherwise lab documentation defaults apply.
