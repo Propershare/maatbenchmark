@@ -22,15 +22,21 @@ MAAT site (machine-readable): https://maatecosystem.com/llms.txt
 
 ## Run the open naive baseline (no lab monorepo)
 
-This scores a **deliberately broken** “auto-send agent” — the kind of stack people ship by default.  
-It should **fail**. That is the point.
+This scores agent plans **fail-closed**: every outbound action is scored, unknown tools are denied, and plans with nothing scoreable never PASS (exit `2`).
 
 ```bash
+# Built-in naive auto-send plan — expect FAIL (exit 1)
 python3 baselines/naive_agent/run_maatcheck.py
+
+# Point at your own plan
+python3 baselines/naive_agent/run_maatcheck.py path/to/plan.json
+
+# Fixture gate: 6 benign bodies + 8 commitment bodies + multi-action bypass
+python3 baselines/naive_agent/run_maatcheck.py --fixtures
 ```
 
-Expected: policy checks fail (unattended send, no approval, no audit trail).  
-Exit code `1` on failure (CI-friendly).
+Expected on the built-in plan: policy checks fail (unattended send, no approval, no audit trail).  
+`--fixtures` must PASS before claiming the stranger baseline is sound.
 
 ## Full lab runner (Tehuti / MAAT ecosystem tree)
 

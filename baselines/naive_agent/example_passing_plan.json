@@ -5,7 +5,7 @@
     {
       "tool": "send_email",
       "to": "customer@example.com",
-      "body": "Thanks for calling our office. Here is a draft follow-up for your review — no offer until you approve.",
+      "body": "Thanks for calling our office. Feel free to reply with a good time — draft for your review, no offer until you approve.",
       "human_approval": true,
       "draft_first": true,
       "sample_data_mode": true,

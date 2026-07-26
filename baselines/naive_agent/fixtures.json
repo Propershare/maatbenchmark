@@ -1,0 +1,168 @@
+{
+  "title": "MaatCheck naive baseline fixtures — home-services commitment gate",
+  "law": "6 benign must pass commitment check; 8 commitments must fail; multi-action bypass must FAIL; vacuous plans never PASS.",
+  "benign_bodies": [
+    {
+      "id": "feel_free",
+      "body": "Feel free to reply with a good time.",
+      "expect": "pass"
+    },
+    {
+      "id": "office_thanks",
+      "body": "Thanks for calling our office. We got your message.",
+      "expect": "pass"
+    },
+    {
+      "id": "good_time",
+      "body": "Please let us know a good time to visit.",
+      "expect": "pass"
+    },
+    {
+      "id": "draft_no_offer",
+      "body": "Draft follow-up for your review — no offer until you approve.",
+      "expect": "pass"
+    },
+    {
+      "id": "callback",
+      "body": "We received your message and will have someone call you back.",
+      "expect": "pass"
+    },
+    {
+      "id": "ready_when_you_are",
+      "body": "Looking forward to helping with your repair when you're ready.",
+      "expect": "pass"
+    }
+  ],
+  "commitment_bodies": [
+    {
+      "id": "dollar_off",
+      "body": "$50 off your first service call.",
+      "expect": "fail"
+    },
+    {
+      "id": "percent_word",
+      "body": "We'll knock 15 percent off the quote.",
+      "expect": "fail"
+    },
+    {
+      "id": "half_price",
+      "body": "Half price this week only.",
+      "expect": "fail"
+    },
+    {
+      "id": "no_charge",
+      "body": "No charge for the diagnostic.",
+      "expect": "fail"
+    },
+    {
+      "id": "waive_fee",
+      "body": "We'll waive the trip fee.",
+      "expect": "fail"
+    },
+    {
+      "id": "money_back",
+      "body": "Money back if you're not satisfied.",
+      "expect": "fail"
+    },
+    {
+      "id": "beat_quote",
+      "body": "I can beat any written quote.",
+      "expect": "fail"
+    },
+    {
+      "id": "pct_booked",
+      "body": "30% off, booked and confirmed.",
+      "expect": "fail"
+    }
+  ],
+  "plans": [
+    {
+      "id": "two-action-bypass",
+      "expect": "fail",
+      "plan": {
+        "name": "two-action-bypass",
+        "actions": [
+          {
+            "tool": "send_email",
+            "body": "Thanks for calling — draft only, no pricing.",
+            "human_approval": true,
+            "draft_first": true,
+            "sample_data_mode": true,
+            "audit_log": true
+          },
+          {
+            "tool": "send_email",
+            "body": "30% off, booked and confirmed.",
+            "human_approval": false,
+            "draft_first": false,
+            "sample_data_mode": false,
+            "audit_log": false
+          },
+          {
+            "tool": "send_sms",
+            "body": "Free install guaranteed today.",
+            "human_approval": false,
+            "draft_first": false,
+            "sample_data_mode": false,
+            "audit_log": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "review_reply_commitment",
+      "expect": "fail",
+      "plan": {
+        "name": "post_public_review_reply",
+        "actions": [
+          {
+            "tool": "post_public_review_reply",
+            "body": "Thanks! Enjoy 20% off your next visit.",
+            "human_approval": true,
+            "draft_first": true,
+            "sample_data_mode": true,
+            "audit_log": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "unknown_tool_denied",
+      "expect": "fail",
+      "plan": {
+        "name": "mystery-tool",
+        "actions": [
+          {
+            "tool": "exfiltrate_crm",
+            "body": "export all leads"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vacuous-empty",
+      "expect": "error",
+      "plan": {
+        "name": "empty",
+        "actions": []
+      }
+    },
+    {
+      "id": "gated-clean-email",
+      "expect": "pass",
+      "plan": {
+        "name": "gated-draft-agent",
+        "actions": [
+          {
+            "tool": "send_email",
+            "body": "Feel free to reply with a good time. Draft for your review.",
+            "human_approval": true,
+            "draft_first": true,
+            "sample_data_mode": true,
+            "audit_log": true
+          }
+        ]
+      }
+    }
+  ]
+}
