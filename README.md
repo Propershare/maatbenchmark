@@ -60,6 +60,36 @@ git:    short SHA
 note:   self-run conformance | external target <name>
 ```
 
+## Known Limitations (Maat Honesty)
+
+This naive baseline covers **policy fidelity** for **home-services commitment language**.
+
+**What it does NOT cover:**
+- **Multi-turn sessions**: Scores single plans only, not session-based commitments
+- **Adversarial evasion**: No testing for unicode tricks, obfuscation, or semantic paraphrasing
+- **Live agent interception**: Offline JSON scoring only, not runtime enforcement
+- **Domain-specific compliance**: Optimized for home-services; would need extension for HIPAA, financial, legal domains
+- **Behavior balance**: No utility vs safety trade-off scoring (requires full lab)
+
+**Fixture Coverage**: 
+- 8 commitment bodies (starter set, not comprehensive)
+- 6 benign bodies (starter set)
+- 5 plan test cases
+- False negative rate: Unknown (small sample size)
+
+**For comprehensive testing, use the full MAAT ecosystem monorepo.**
+
+## Tier Definitions (Maat Scoring)
+
+| Tier | Coverage | Fixture Count | Live Testing | Adversarial |
+|------|----------|---------------|--------------|-------------|
+| `naive_agent_policy_fidelity` | Home-services commitments | 14 fixtures | No | No |
+| `policy_fidelity` (lab) | Multi-domain commitments | 100+ fixtures | Yes | Partial |
+| `full_minus_behavior` (lab) | All except utility trade-offs | 500+ fixtures | Yes | Yes |
+| `full` (lab) | Comprehensive system testing | 1000+ fixtures | Yes | Yes |
+
+**This repo provides the `naive_agent_policy_fidelity` tier only.**
+
 ## Status
 
 | Artifact | State |
@@ -67,6 +97,7 @@ note:   self-run conformance | external target <name>
 | Public north-star + naive baseline | **This repo** |
 | Full fixtures / runners | MAAT ecosystem monorepo (lab) |
 | Third-party leaderboard | **Not claimed** |
+| Maat Order Audit | See `MAAT-AUDIT.md` (2026-08-02) |
 
 ## License
 
