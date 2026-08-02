@@ -6,7 +6,8 @@ No Tehuti Lab monorepo required. Strangers can point this at a JSON plan.
 Usage:
   python3 run_maatcheck.py                         # built-in naive plan (expect FAIL)
   python3 run_maatcheck.py path/to/plan.json
-  python3 run_maatcheck.py --fixtures              # 6 benign + 8 commitment bodies + plan cases
+  python3 run_maatcheck.py --fixtures              # 30 benign + 50 commitment bodies + plan cases
+  python3 run_maatcheck.py --adversarial           # adversarial evasion tests (obfuscation, unicode, etc.)
 
 Law:
   Score every outbound action. Deny unknown tools. Never vacuous PASS.
@@ -28,22 +29,33 @@ from typing import Any
 COMMITMENT_RE = re.compile(
     r"(?i)("
     r"\$\s*\d+(?:\.\d+)?\s*off"  # $50 off
+    r"|\bsave\s+\$\s*\d+(?:\.\d+)?"  # save $200
     r"|\d+\s*%\s*off"  # 15% off
     r"|\d+\s*percent\s*off"  # 15 percent off
+    r"|\bsave\s+\d+\s*%"  # save 30%
     r"|\bhalf\s*price\b"
     r"|\bno\s+charge\b"
     r"|\bwaive\b"
     r"|\bmoney\s+back\b"
     r"|\brefund\b"
+    r"|\brebate\b"
+    r"|\bcash\s*back\b"
+    r"|\bgift\s+card\b"
     r"|\bbeat\s+any\s+(?:written\s+)?quote\b"
     r"|\bprice\s*match\b"
     r"|\bfree\s+(?:install|estimate|service|repair|month|diagnostic)\b"
+    r"|\b(?:first|1st)\s+month\s+free\b"
+    r"|\bget\s+(?:one|the\s+\w+)\s+free\b"  # get one free, get the 4th free
+    r"|\bbuy\s+one.*get\s+one\s+free\b"  # BOGO
     r"|\bdiscount\b"
     r"|\bguaranteed?\b"
     r"|\bbook(?:ed)?\s+today\b"
     r"|\bbooked\s+and\s+confirmed\b"
-    r"|\blimited\s+time\b"
+    r"|\blimited\s+(?:time|slots)\b"
+    r"|\bonly\s+\d+\s+slots\s+left\b"
     r"|\bspecial\s+offer\b"
+    r"|\bearly\s+bird\b"
+    r"|\bprepay\s+and\s+save\b"
     r")"
 )
 
@@ -293,6 +305,71 @@ def run_fixtures(fixtures_path: Path) -> int:
     return 0 if report["pass"] else 1
 
 
+def run_adversarial(fixtures_path: Path) -> int:
+    """Run adversarial evasion tests (obfuscation, unicode, paraphrasing)."""
+    data = json.loads(fixtures_path.read_text(encoding="utf-8"))
+    failures: list[str] = []
+    
+    # Test commitment evasions (should all be caught)
+    for row in data.get("commitment_evasions", []):
+        body = row["body"]
+        category = row.get("category", "unknown")
+        if not has_commitment(body):
+            failures.append(f"EVASION MISSED ({row['id']}, {category}): {body!r}")
+    
+    # Test benign edge cases (should all pass)
+    for row in data.get("benign_edge_cases", []):
+        body = row["body"]
+        if has_commitment(body):
+            failures.append(f"FALSE POSITIVE ({row['id']}): {body!r}")
+    
+    # Test plans with evasion attempts
+    for row in data.get("plans", []):
+        expect = row["expect"]
+        checks, meta = score(row["plan"])
+        passed = sum(1 for c in checks if c.passed)
+        total = len(checks)
+        all_pass = total > 0 and passed == total and not meta["vacuous"]
+        if expect == "fail" and all_pass:
+            failures.append(f"evasion plan should FAIL ({row['id']}): got {passed}/{total}")
+        elif expect == "pass" and not all_pass:
+            failures.append(f"evasion plan should PASS ({row['id']}): got {passed}/{total}")
+    
+    # Calculate detection rates
+    commitment_evasions = data.get("commitment_evasions", [])
+    benign_edge_cases = data.get("benign_edge_cases", [])
+    caught = len(commitment_evasions) - sum(1 for f in failures if "EVASION MISSED" in f)
+    false_positives = sum(1 for f in failures if "FALSE POSITIVE" in f)
+    
+    detection_rate = (caught / len(commitment_evasions)) if commitment_evasions else 0.0
+    false_positive_rate = (false_positives / len(benign_edge_cases)) if benign_edge_cases else 0.0
+    
+    report = {
+        "suite": "maatcheck-adversarial",
+        "fixtures": str(fixtures_path),
+        "commitment_evasions": len(commitment_evasions),
+        "caught": caught,
+        "missed": len(commitment_evasions) - caught,
+        "detection_rate": round(detection_rate, 4),
+        "benign_edge_cases": len(benign_edge_cases),
+        "false_positives": false_positives,
+        "false_positive_rate": round(false_positive_rate, 4),
+        "plans": len(data.get("plans", [])),
+        "failures": failures,
+        "pass": not failures,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "note": "Adversarial suite tests obfuscation, unicode tricks, leetspeak, paraphrasing, and emoji substitution.",
+    }
+    print(json.dumps(report, indent=2))
+    print(
+        f"\nAdversarial: {'PASS' if report['pass'] else 'FAIL'} "
+        f"(Detection: {caught}/{len(commitment_evasions)} = {detection_rate:.1%}, "
+        f"FP: {false_positives}/{len(benign_edge_cases)} = {false_positive_rate:.1%})",
+        file=sys.stderr,
+    )
+    return 0 if report["pass"] else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     parser = argparse.ArgumentParser(description="MaatCheck naive / stranger baseline (fail-closed)")
@@ -304,9 +381,23 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Run fixture suite (default: fixtures.json beside this script)",
     )
+    parser.add_argument(
+        "--adversarial",
+        nargs="?",
+        const="adversarial_fixtures.json",
+        default=None,
+        help="Run adversarial evasion tests (default: adversarial_fixtures.json beside this script)",
+    )
     args = parser.parse_args(argv)
 
     here = Path(__file__).resolve().parent
+    
+    if args.adversarial is not None:
+        path = Path(args.adversarial)
+        if not path.is_absolute():
+            path = here / path
+        return run_adversarial(path)
+    
     if args.fixtures is not None:
         path = Path(args.fixtures)
         if not path.is_absolute():
