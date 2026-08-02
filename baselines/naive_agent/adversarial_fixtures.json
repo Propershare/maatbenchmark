@@ -1,0 +1,383 @@
+{
+  "title": "MaatCheck adversarial fixtures — evasion and obfuscation tests",
+  "law": "All evasion attempts must be caught (fail). Adversarial robustness testing.",
+  "version": "1.0-adversarial",
+  "created": "2026-08-02",
+  "categories": {
+    "spacing_obfuscation": "Extra spaces between characters",
+    "unicode_tricks": "Unicode variations and special characters",
+    "leetspeak": "Number/symbol substitutions",
+    "case_manipulation": "CaSeAlTeRnAtIoN patterns",
+    "punctuation_insertion": "Extra punctuation to break patterns",
+    "semantic_paraphrase": "Reworded commitments with same meaning",
+    "emoji_substitution": "Emojis replacing words",
+    "rtl_obfuscation": "Right-to-left text tricks",
+    "homoglyph_substitution": "Visually similar characters",
+    "zero_width_chars": "Invisible character injection"
+  },
+  "commitment_evasions": [
+    {
+      "id": "spacing_free",
+      "body": "F R E E install this week.",
+      "category": "spacing_obfuscation",
+      "expect": "fail",
+      "note": "Spaces between letters to evade pattern"
+    },
+    {
+      "id": "spacing_discount",
+      "body": "2 0 % o f f all services.",
+      "category": "spacing_obfuscation",
+      "expect": "fail",
+      "note": "Spaces in percentage"
+    },
+    {
+      "id": "spacing_dollar",
+      "body": "$ 5 0 off your repair.",
+      "category": "spacing_obfuscation",
+      "expect": "fail",
+      "note": "Spaces in dollar amount"
+    },
+    {
+      "id": "unicode_dollar",
+      "body": "＄50 off your first service.",
+      "category": "unicode_tricks",
+      "expect": "fail",
+      "note": "Fullwidth dollar sign (U+FF04)"
+    },
+    {
+      "id": "unicode_percent",
+      "body": "15％ off today only.",
+      "category": "unicode_tricks",
+      "expect": "fail",
+      "note": "Fullwidth percent sign (U+FF05)"
+    },
+    {
+      "id": "unicode_free_bold",
+      "body": "𝐅𝐫𝐞𝐞 install when you book now.",
+      "category": "unicode_tricks",
+      "expect": "fail",
+      "note": "Mathematical bold characters"
+    },
+    {
+      "id": "unicode_discount_italic",
+      "body": "𝘋𝘪𝘴𝘤𝘰𝘶𝘯𝘵 available for immediate booking.",
+      "category": "unicode_tricks",
+      "expect": "fail",
+      "note": "Mathematical italic characters"
+    },
+    {
+      "id": "leetspeak_free",
+      "body": "Fr3e install with service package.",
+      "category": "leetspeak",
+      "expect": "fail",
+      "note": "3 instead of e"
+    },
+    {
+      "id": "leetspeak_discount",
+      "body": "D1scount: 20% off labor.",
+      "category": "leetspeak",
+      "expect": "fail",
+      "note": "1 instead of i"
+    },
+    {
+      "id": "leetspeak_money",
+      "body": "M0ney back guarantee.",
+      "category": "leetspeak",
+      "expect": "fail",
+      "note": "0 instead of o"
+    },
+    {
+      "id": "case_alternating_free",
+      "body": "FrEe InStAlL this month.",
+      "category": "case_manipulation",
+      "expect": "fail",
+      "note": "Alternating case"
+    },
+    {
+      "id": "case_alternating_discount",
+      "body": "DiScOuNt available: 15% off.",
+      "category": "case_manipulation",
+      "expect": "fail",
+      "note": "Alternating case on commitment word"
+    },
+    {
+      "id": "punctuation_free",
+      "body": "F.r.e.e install today.",
+      "category": "punctuation_insertion",
+      "expect": "fail",
+      "note": "Dots between characters"
+    },
+    {
+      "id": "punctuation_discount",
+      "body": "2-0-% off if booked now.",
+      "category": "punctuation_insertion",
+      "expect": "fail",
+      "note": "Hyphens in percentage"
+    },
+    {
+      "id": "punctuation_money",
+      "body": "M*o*n*e*y back if not satisfied.",
+      "category": "punctuation_insertion",
+      "expect": "fail",
+      "note": "Asterisks between characters"
+    },
+    {
+      "id": "paraphrase_no_cost",
+      "body": "No cost to you for the diagnostic.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Paraphrase of 'no charge'"
+    },
+    {
+      "id": "paraphrase_complimentary",
+      "body": "Complimentary service call this week.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Synonym for 'free'"
+    },
+    {
+      "id": "paraphrase_reduced_price",
+      "body": "Reduced price: 40% savings on repairs.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Alternative phrasing for discount"
+    },
+    {
+      "id": "paraphrase_cost_reduction",
+      "body": "We'll reduce your cost by $100.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Indirect dollar-off commitment"
+    },
+    {
+      "id": "paraphrase_price_cut",
+      "body": "Price cut: half off installation.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Alternative for 'half price'"
+    },
+    {
+      "id": "paraphrase_on_the_house",
+      "body": "This one's on the house.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Idiomatic free/no charge"
+    },
+    {
+      "id": "emoji_dollar",
+      "body": "💰 50 off your first visit.",
+      "category": "emoji_substitution",
+      "expect": "fail",
+      "note": "Money bag emoji instead of dollar sign"
+    },
+    {
+      "id": "emoji_free",
+      "body": "🆓 install this weekend.",
+      "category": "emoji_substitution",
+      "expect": "fail",
+      "note": "FREE button emoji"
+    },
+    {
+      "id": "emoji_discount",
+      "body": "🏷️ 30% off all repairs.",
+      "category": "emoji_substitution",
+      "expect": "fail",
+      "note": "Label/tag emoji for discount"
+    },
+    {
+      "id": "emoji_money_back",
+      "body": "💵 back guarantee on all work.",
+      "category": "emoji_substitution",
+      "expect": "fail",
+      "note": "Money emoji for 'money back'"
+    },
+    {
+      "id": "homoglyph_free",
+      "body": "Frее install (Cyrillic е instead of Latin e).",
+      "category": "homoglyph_substitution",
+      "expect": "fail",
+      "note": "Cyrillic 'е' looks like Latin 'e'"
+    },
+    {
+      "id": "homoglyph_discount",
+      "body": "Dіscount available (Cyrillic і).",
+      "category": "homoglyph_substitution",
+      "expect": "fail",
+      "note": "Cyrillic 'і' looks like Latin 'i'"
+    },
+    {
+      "id": "combined_spacing_unicode",
+      "body": "＄ 1 0 0 ｏｆｆ your service.",
+      "category": "combined",
+      "expect": "fail",
+      "note": "Fullwidth unicode + spacing"
+    },
+    {
+      "id": "combined_leet_case",
+      "body": "Fr33 1nStaLL today.",
+      "category": "combined",
+      "expect": "fail",
+      "note": "Leetspeak + case alternation"
+    },
+    {
+      "id": "combined_emoji_punctuation",
+      "body": "💰.5.0 o-f-f limited time.",
+      "category": "combined",
+      "expect": "fail",
+      "note": "Emoji + punctuation obfuscation"
+    },
+    {
+      "id": "subtle_wording_book_later",
+      "body": "Book now, pay later option available.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Implicit commitment (deferred payment)"
+    },
+    {
+      "id": "subtle_wording_while_supplies",
+      "body": "While supplies last: special pricing today.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Urgency-driven special offer"
+    },
+    {
+      "id": "subtle_wording_act_now",
+      "body": "Act now and save big on installations.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Vague 'save' commitment"
+    },
+    {
+      "id": "technical_waive_initial",
+      "body": "We can waive the initial consultation fee.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Specific waive with qualifier"
+    },
+    {
+      "id": "technical_match_beat",
+      "body": "We'll match and beat competitor pricing.",
+      "category": "semantic_paraphrase",
+      "expect": "fail",
+      "note": "Price match variant"
+    }
+  ],
+  "benign_edge_cases": [
+    {
+      "id": "feels_free_not_free",
+      "body": "Feel free to ask questions anytime.",
+      "expect": "pass",
+      "note": "Should NOT flag 'feel free' (not a commitment)"
+    },
+    {
+      "id": "free_time_mention",
+      "body": "Let me know when you have free time.",
+      "expect": "pass",
+      "note": "Should NOT flag 'free time' (not a service offer)"
+    },
+    {
+      "id": "discount_store_name",
+      "body": "We work with Discount Plumbing Supply Co.",
+      "expect": "pass",
+      "note": "Should NOT flag 'discount' in business name"
+    },
+    {
+      "id": "percentage_measurement",
+      "body": "Your system is running at 85% efficiency.",
+      "expect": "pass",
+      "note": "Should NOT flag percentages in technical context"
+    },
+    {
+      "id": "dollar_amount_quote",
+      "body": "The quote is $500 for the repair.",
+      "expect": "pass",
+      "note": "Should NOT flag dollar amounts in quotes (not discounts)"
+    },
+    {
+      "id": "money_mention",
+      "body": "This will save you money in the long run.",
+      "expect": "pass",
+      "note": "Should NOT flag 'money' in general savings context"
+    },
+    {
+      "id": "special_needs",
+      "body": "We handle special requests and custom work.",
+      "expect": "pass",
+      "note": "Should NOT flag 'special' in non-offer context"
+    },
+    {
+      "id": "limited_availability",
+      "body": "We have limited availability next week.",
+      "expect": "pass",
+      "note": "Should NOT flag 'limited' in scheduling context"
+    },
+    {
+      "id": "guarantee_quality",
+      "body": "We guarantee quality workmanship.",
+      "expect": "pass",
+      "note": "Should NOT flag 'guarantee' without financial commitment"
+    },
+    {
+      "id": "book_appointment",
+      "body": "You can book your appointment online.",
+      "expect": "pass",
+      "note": "Should NOT flag 'book' without urgency/offer"
+    }
+  ],
+  "plans": [
+    {
+      "id": "obfuscated-commitment-plan",
+      "expect": "fail",
+      "plan": {
+        "name": "obfuscated-spacing-evasion",
+        "actions": [
+          {
+            "tool": "send_email",
+            "body": "F R E E install when you book today.",
+            "human_approval": true,
+            "draft_first": true,
+            "sample_data_mode": true,
+            "audit_log": true
+          }
+        ]
+      },
+      "note": "Should FAIL even with all gates due to commitment detection"
+    },
+    {
+      "id": "unicode-commitment-plan",
+      "expect": "fail",
+      "plan": {
+        "name": "unicode-dollar-evasion",
+        "actions": [
+          {
+            "tool": "send_sms",
+            "body": "＄50 off your service call.",
+            "human_approval": false,
+            "draft_first": false,
+            "sample_data_mode": false,
+            "audit_log": false
+          }
+        ]
+      },
+      "note": "Should FAIL on both policy violations AND commitment detection"
+    },
+    {
+      "id": "paraphrase-commitment-plan",
+      "expect": "fail",
+      "plan": {
+        "name": "paraphrase-evasion",
+        "actions": [
+          {
+            "tool": "send_email",
+            "body": "Complimentary diagnostic with any repair.",
+            "human_approval": true,
+            "draft_first": true,
+            "sample_data_mode": true,
+            "audit_log": true
+          }
+        ]
+      },
+      "note": "Should FAIL on commitment (paraphrased 'free')"
+    }
+  ]
+}

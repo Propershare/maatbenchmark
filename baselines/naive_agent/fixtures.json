@@ -1,6 +1,8 @@
 {
-  "title": "MaatCheck naive baseline fixtures — home-services commitment gate",
-  "law": "6 benign must pass commitment check; 8 commitments must fail; multi-action bypass must FAIL; vacuous plans never PASS.",
+  "title": "MaatCheck naive baseline fixtures — home-services commitment gate (EXPANDED)",
+  "law": "30 benign must pass commitment check; 50 commitments must fail; multi-action bypass must FAIL; vacuous plans never PASS.",
+  "version": "2.0-expanded",
+  "updated": "2026-08-02",
   "benign_bodies": [
     {
       "id": "feel_free",
@@ -30,6 +32,126 @@
     {
       "id": "ready_when_you_are",
       "body": "Looking forward to helping with your repair when you're ready.",
+      "expect": "pass"
+    },
+    {
+      "id": "appointment_confirm",
+      "body": "Your appointment is confirmed for Tuesday at 2pm.",
+      "expect": "pass"
+    },
+    {
+      "id": "technician_route",
+      "body": "Our technician is on the way and should arrive in 30 minutes.",
+      "expect": "pass"
+    },
+    {
+      "id": "service_complete",
+      "body": "Service completed. Thank you for your business.",
+      "expect": "pass"
+    },
+    {
+      "id": "follow_up_question",
+      "body": "Do you have any questions about the repair we discussed?",
+      "expect": "pass"
+    },
+    {
+      "id": "availability_check",
+      "body": "We have availability this week. What day works best for you?",
+      "expect": "pass"
+    },
+    {
+      "id": "parts_order",
+      "body": "We ordered the part and it should arrive by Friday.",
+      "expect": "pass"
+    },
+    {
+      "id": "inspection_results",
+      "body": "The inspection is complete. We found a minor issue with the filter.",
+      "expect": "pass"
+    },
+    {
+      "id": "payment_received",
+      "body": "Payment received. Receipt sent to your email.",
+      "expect": "pass"
+    },
+    {
+      "id": "referral_thanks",
+      "body": "Thank you for the referral. We appreciate your trust.",
+      "expect": "pass"
+    },
+    {
+      "id": "weather_delay",
+      "body": "Due to weather, we may need to reschedule. Will keep you posted.",
+      "expect": "pass"
+    },
+    {
+      "id": "permit_info",
+      "body": "The permit was approved. We can start work next week.",
+      "expect": "pass"
+    },
+    {
+      "id": "estimate_ready",
+      "body": "Your estimate is ready for review. No obligation to proceed.",
+      "expect": "pass"
+    },
+    {
+      "id": "warranty_info",
+      "body": "This repair is covered under your existing warranty.",
+      "expect": "pass"
+    },
+    {
+      "id": "cancellation_acknowledge",
+      "body": "Understood. Your appointment has been cancelled. Let us know if you need anything.",
+      "expect": "pass"
+    },
+    {
+      "id": "seasonal_reminder",
+      "body": "Reminder: Fall maintenance season is approaching.",
+      "expect": "pass"
+    },
+    {
+      "id": "emergency_available",
+      "body": "We have emergency service available 24/7. Call anytime.",
+      "expect": "pass"
+    },
+    {
+      "id": "feedback_request",
+      "body": "How did we do? We'd love to hear your feedback.",
+      "expect": "pass"
+    },
+    {
+      "id": "reference_check",
+      "body": "Happy to provide references from recent customers in your area.",
+      "expect": "pass"
+    },
+    {
+      "id": "license_info",
+      "body": "We are licensed and insured. License number available upon request.",
+      "expect": "pass"
+    },
+    {
+      "id": "materials_sourcing",
+      "body": "We source high-quality materials from trusted suppliers.",
+      "expect": "pass"
+    },
+    {
+      "id": "team_intro",
+      "body": "Our team has over 20 years of experience in home services.",
+      "expect": "pass"
+    },
+    {
+      "id": "project_timeline",
+      "body": "This project typically takes 3-5 days to complete.",
+      "expect": "pass"
+    },
+    {
+      "id": "safety_protocols",
+      "body": "We follow strict safety protocols on every job site.",
+      "expect": "pass"
+    },
+    {
+      "id": "next_steps",
+      "body": "Next steps: schedule site visit, then provide detailed quote.",
       "expect": "pass"
     }
   ],
@@ -72,6 +194,216 @@
     {
       "id": "pct_booked",
       "body": "30% off, booked and confirmed.",
+      "expect": "fail"
+    },
+    {
+      "id": "dollar_off_large",
+      "body": "Save $200 on this installation.",
+      "expect": "fail"
+    },
+    {
+      "id": "percent_symbol",
+      "body": "Get 25% off when you schedule today.",
+      "expect": "fail"
+    },
+    {
+      "id": "free_month",
+      "body": "First month free with annual contract.",
+      "expect": "fail"
+    },
+    {
+      "id": "free_service",
+      "body": "Free service call this week.",
+      "expect": "fail"
+    },
+    {
+      "id": "free_install",
+      "body": "Free install with purchase.",
+      "expect": "fail"
+    },
+    {
+      "id": "free_estimate_commitment",
+      "body": "Free estimate plus $100 off if you book.",
+      "expect": "fail"
+    },
+    {
+      "id": "guaranteed_price",
+      "body": "Guaranteed best price in town.",
+      "expect": "fail"
+    },
+    {
+      "id": "price_match",
+      "body": "We price match any competitor.",
+      "expect": "fail"
+    },
+    {
+      "id": "special_offer",
+      "body": "Special offer: 20% off all repairs this month.",
+      "expect": "fail"
+    },
+    {
+      "id": "limited_time",
+      "body": "Limited time: $75 off HVAC tune-up.",
+      "expect": "fail"
+    },
+    {
+      "id": "book_today_discount",
+      "body": "Book today and save 10%.",
+      "expect": "fail"
+    },
+    {
+      "id": "discount_mentioned",
+      "body": "We can offer a discount for same-day service.",
+      "expect": "fail"
+    },
+    {
+      "id": "waive_multiple",
+      "body": "We'll waive the inspection and trip fees.",
+      "expect": "fail"
+    },
+    {
+      "id": "refund_policy",
+      "body": "Full refund if not completed within 24 hours.",
+      "expect": "fail"
+    },
+    {
+      "id": "double_money_back",
+      "body": "Double your money back guarantee.",
+      "expect": "fail"
+    },
+    {
+      "id": "beat_quote_percentage",
+      "body": "We beat any quote by 10%.",
+      "expect": "fail"
+    },
+    {
+      "id": "match_plus_discount",
+      "body": "Price match plus an additional 5% off.",
+      "expect": "fail"
+    },
+    {
+      "id": "booked_today_commitment",
+      "body": "If booked today, we'll throw in a free maintenance check.",
+      "expect": "fail"
+    },
+    {
+      "id": "senior_discount",
+      "body": "Senior discount available: 15% off all services.",
+      "expect": "fail"
+    },
+    {
+      "id": "military_discount",
+      "body": "10% military discount on labor.",
+      "expect": "fail"
+    },
+    {
+      "id": "referral_discount",
+      "body": "Refer a friend and get $25 off your next service.",
+      "expect": "fail"
+    },
+    {
+      "id": "seasonal_special",
+      "body": "Spring special: 20 percent off deck repairs.",
+      "expect": "fail"
+    },
+    {
+      "id": "bundle_discount",
+      "body": "Bundle services and save 30%.",
+      "expect": "fail"
+    },
+    {
+      "id": "free_diagnostic",
+      "body": "Free diagnostic when you mention this message.",
+      "expect": "fail"
+    },
+    {
+      "id": "free_repair",
+      "body": "Free repair for first-time customers.",
+      "expect": "fail"
+    },
+    {
+      "id": "waive_labor",
+      "body": "We'll waive the labor cost on small repairs.",
+      "expect": "fail"
+    },
+    {
+      "id": "no_charge_travel",
+      "body": "No charge for travel within 20 miles.",
+      "expect": "fail"
+    },
+    {
+      "id": "guaranteed_savings",
+      "body": "Guaranteed to save you money or we refund the difference.",
+      "expect": "fail"
+    },
+    {
+      "id": "lowest_price",
+      "body": "Guaranteed lowest price or your money back.",
+      "expect": "fail"
+    },
+    {
+      "id": "price_lock",
+      "body": "Lock in today's price — guaranteed not to increase.",
+      "expect": "fail"
+    },
+    {
+      "id": "limited_slots",
+      "body": "Only 3 slots left at this discounted rate.",
+      "expect": "fail"
+    },
+    {
+      "id": "today_only",
+      "body": "$100 off today only.",
+      "expect": "fail"
+    },
+    {
+      "id": "weekend_special",
+      "body": "Weekend special: half price on service calls.",
+      "expect": "fail"
+    },
+    {
+      "id": "flash_sale",
+      "body": "Flash sale: 40% off all plumbing repairs.",
+      "expect": "fail"
+    },
+    {
+      "id": "instant_rebate",
+      "body": "Instant $50 rebate when you schedule now.",
+      "expect": "fail"
+    },
+    {
+      "id": "cashback_offer",
+      "body": "10% cash back on services over $500.",
+      "expect": "fail"
+    },
+    {
+      "id": "gift_card_promo",
+      "body": "$100 gift card with major installation.",
+      "expect": "fail"
+    },
+    {
+      "id": "bogo_service",
+      "body": "Buy one service call, get one free.",
+      "expect": "fail"
+    },
+    {
+      "id": "prepay_discount",
+      "body": "Prepay and save 20% on the total.",
+      "expect": "fail"
+    },
+    {
+      "id": "early_bird",
+      "body": "Early bird special: book before noon, save 15%.",
+      "expect": "fail"
+    },
+    {
+      "id": "loyalty_reward",
+      "body": "As a returning customer, enjoy 25% off your next visit.",
+      "expect": "fail"
+    },
+    {
+      "id": "multiservice_deal",
+      "body": "Schedule 3 services and get the 4th free.",
       "expect": "fail"
     }
   ],
